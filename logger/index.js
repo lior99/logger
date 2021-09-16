@@ -1,5 +1,5 @@
 const Logger = {
-    _loggerEndPoint: 'http://localhost:5000/api/message',
+    _loggerEndPoint: 'http://localhost:5000/api/log',
     _customerId: null,
 
     setCustomerId: function(customerId) {       
@@ -11,15 +11,16 @@ const Logger = {
     },
 
     Log: function(logData) {        
-        console.log('logData', logData);
-        const { methodName, data: { params } } = logData;
+        const { methodName, data: { params }, type = 'info', errorMessage = '' } = logData;
 
         const message = {  
             customerId: this._customerId,   
             data: {
                 methodName,
                 params
-            }       
+            },
+            type,
+            errorMessage
         }
 
         const messageAsBlob = new Blob([JSON.stringify(message)]);

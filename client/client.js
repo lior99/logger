@@ -6,6 +6,36 @@ function main() {
     Logger.setCustomerId('test_123');
 
     button.addEventListener('click', onButtonClick);
+    document.querySelector('#errorButton').addEventListener('click', () => {
+        document.querySelector('#result').textContent = 'fetching data...';
+
+        getDummyData();
+    })
+}
+
+async function getDummyData() {
+    try {
+        const result = await simulateFetchingData();
+        
+    } catch(err) {
+        const errorLog = {
+            methodName: 'getDummyData -> simulateFetchingData',
+            data: {},
+            type: 'Error',
+            errorMessage: err
+        }
+
+        document.querySelector('#result').textContent = err;
+        Logger.Log(errorLog);
+    }
+}
+
+function simulateFetchingData() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            reject('got some error inside!')
+        }, 3000);
+    });
 }
 
 function onButtonClick(event) {
@@ -23,7 +53,7 @@ function onButtonClick(event) {
 
     setTimeout(() => {
         // simulate async operation
-        Logger.Log({ methodName: '', error: 'some error occured' });
+        Logger.Log({ methodName: '', errorMessage: 'some error occured', type: 'Error' });
     }, 3000)
 
     Logger.Log(message);
