@@ -1,7 +1,6 @@
 import express from 'express';
-// const express = require('express');
-
 import {saveLogToDb} from './dbHandler/index.js';
+
 const PORT = 5000;
 const app = express();
 
